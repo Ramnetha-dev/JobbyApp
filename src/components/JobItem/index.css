@@ -1,0 +1,139 @@
+.job-item-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.jobs-item-bg-container {
+  background-color: #000000;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.jobs-container {
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+}
+
+.job-container {
+  background-color: #202020;
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.company-logo-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.company-logo {
+  height: 40px;
+}
+
+.job-title {
+  font-family: Roboto;
+  font-size: 13px;
+  color: #ffffff;
+}
+
+.job-title-container {
+  margin-left: 8px;
+  margin-top: 8px;
+}
+
+.job-rating-container {
+  display: flex;
+  flex-direction: row;
+
+  justify-content: flex-start;
+
+  align-items: center;
+}
+
+.rating-text {
+  color: #ffffff;
+  font-family: Roboto;
+  font-size: 12px;
+}
+
+.star-icon {
+  margin-right: 5px;
+}
+
+.job-location-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.job-details-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.job-location-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.employment-type-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.package {
+  color: #ffffff;
+  font-family: Roboto;
+  font-size: 12px;
+}
+
+.horizontal-line {
+  width: 100%;
+  border: 1px solid #475569;
+}
+
+.visit-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.description-heading {
+  font-family: Roboto;
+  font-size: 12px;
+  color: #f8fafc;
+  font-weight: 500;
+}
+
+.visit-button {
+  text-decoration: none;
+  outline: none;
+  background-color: transparent;
+  cursor: pointer;
+  color: #4f46e5;
+  font-family: Roboto;
+  font-size: 13px;
+}
+
+.job-description-txt {
+  font-family: Roboto;
+  font-size: 12px;
+  color: #f8fafc;
+}
+
+.skills-heading {
+  font-family: Roboto;
+  font-size: 12px;
+  color: #f8fafc;
+}
