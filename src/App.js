@@ -1,4 +1,4 @@
-import {Route, Switch} from 'react-router-dom'
+import {Route, Switch, Redirect} from 'react-router-dom'
 
 import Home from './components/Home/index'
 
@@ -21,7 +21,7 @@ const App = () => (
       <ProtectedRoute exact path="/jobs" component={Jobs} />
       <ProtectedRoute exact path="/jobs/:id" component={JobItem} />
       <Route exact path="/not-found" component={NotFound} />
-      <Route exact component={NotFound} />
+      <Redirect to="/not-found" />
     </Switch>
   </div>
 )

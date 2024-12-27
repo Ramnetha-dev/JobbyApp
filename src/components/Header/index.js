@@ -29,35 +29,41 @@ const Header = props => {
         </Link>
 
         <ul className="header-items-container">
-          <Link className="link-item" to="/">
-            <li className="item">Home</li>
-          </Link>
-          <Link className="link-item" to="/jobs">
-            <li className="item">Jobs</li>
-          </Link>
+          <li className="item">
+            <Link className="link-item" to="/">
+              Home
+            </Link>
+          </li>
+
+          <li className="item">
+            <Link to="/jobs" className="link-item">
+              Jobs
+            </Link>
+          </li>
         </ul>
 
         <div className="button-container">
           <ul className="nav-items-conntainer">
-            <Link className="link-item" to="/">
-              <li className="nav-item">
+            <li className="nav-item">
+              <Link to="/" className="link-item">
                 <AiFillHome className="nav-icon" size={20} />
-              </li>
-            </Link>
-            <Link className="link-item" to="/jobs">
-              <li className="nav-item">
+              </Link>
+            </li>
+
+            <li className="nav-item">
+              <Link to="/jobs" className="link-item">
                 <BsBriefcaseFill className="nav-icon" size={20} />
-              </li>
-            </Link>
-            <button
-              type="button"
-              className="logout-icon"
-              onClick={onClickLogoutButton}
-            >
-              <li>
+              </Link>
+            </li>
+            <li>
+              <button
+                type="button"
+                className="logout-icon"
+                onClick={onClickLogoutButton}
+              >
                 <FiLogOut className="nav-icon" size={20} />
-              </li>
-            </button>
+              </button>
+            </li>
           </ul>
           <button
             type="button"

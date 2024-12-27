@@ -44,9 +44,7 @@ class Profile extends Component {
         profileData: profileDetail,
         apiStatus: apiStatusConstants.success,
       })
-    }
-
-    if (response.status === 401) {
+    } else {
       this.setState({apiStatus: apiStatusConstants.failure})
     }
   }
@@ -64,12 +62,12 @@ class Profile extends Component {
   renderSuccessView = () => {
     const {profileData} = this.state
 
-    const {name, profileImageUrl, shortBio} = profileData
+    const {profileImageUrl, name, shortBio} = profileData
 
     return (
       <div className="profile-container">
         <div className="profile-data-contianer">
-          <img src={profileImageUrl} alt={name} className="profile" />
+          <img src={profileImageUrl} alt="profile" className="profile" />
           <h1 className="profile-name">{name}</h1>
           <p className="profile-short-bio">{shortBio}</p>
         </div>

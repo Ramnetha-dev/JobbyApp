@@ -3,6 +3,8 @@ import Cookies from 'js-cookie'
 import {Component} from 'react'
 import {IoIosSearch} from 'react-icons/io'
 
+import Loader from 'react-loader-spinner'
+
 import Header from '../Header'
 import Profile from '../Profile'
 import JobCard from '../JobCard'
@@ -47,17 +49,32 @@ const salaryRangesList = [
   },
 ]
 
+const apiStatusConstants = {
+  initial: 'INITIAL',
+  success: 'SUCCESS',
+  failure: 'FAILURE',
+  inProgress: 'IN_PROGRESS',
+}
+
 class Jobs extends Component {
-  state = {jobsList: [], searchInput: '', checkboxInputs: [], radioInput: ''}
+  state = {
+    jobsList: [],
+    searchInput: '',
+    checkboxInputs: [],
+    radioInput: '',
+    apiStatus: apiStatusConstants.initial,
+  }
 
   componentDidMount() {
     this.getJobsData()
   }
 
   getJobsData = async () => {
+    this.setState({apiStatus: apiStatusConstants.inProgress})
+
     const jwtToken = Cookies.get('jwt_token')
     const {checkboxInputs, radioInput, searchInput} = this.state
-    const apiUrl = `https://apis.ccbp.in/jobs?employment_type=${checkboxInputs}&minimum_package=${radioInput}&search=${searchInput}`
+    const apiUrl = `https://apis.ccbp.in/jobs?employment_type=${checkboxInputs.join()}&minimum_package=${radioInput}&search=${searchInput}`
     const options = {
       method: 'GET',
       headers: {
@@ -80,7 +97,12 @@ class Jobs extends Component {
         rating: job.rating,
         title: job.title,
       }))
-      this.setState({jobsList: updatedData})
+      this.setState({
+        jobsList: updatedData,
+        apiStatus: apiStatusConstants.success,
+      })
+    } else {
+      this.setState({apiStatus: apiStatusConstants.failure})
     }
   }
 
@@ -123,11 +145,83 @@ class Jobs extends Component {
     this.setState({searchInput: event.target.value})
   }
 
-  render() {
+  renderInProgressView = () => (
+    <div className="loader-container" data-testid="loader">
+      <Loader type="ThreeDots" color="#ffffff" height="50" width="50" />
+    </div>
+  )
+
+  renderFailureView = () => (
+    <div className="jobs-failure-container">
+      <img
+        src="https://assets.ccbp.in/frontend/react-js/failure-img.png"
+        alt="failure view"
+        className="job-failure-image"
+      />
+      <h1 className="job-failure-heading">Oops! Something Went Wrong</h1>
+      <p className="job-failure-description">
+        We cannot seem to find the page you are looking for
+      </p>
+      <button
+        data-testid="button"
+        type="button"
+        className="retry-button"
+        onClick={this.getJobsData}
+      >
+        Retry
+      </button>
+    </div>
+  )
+
+  renderSuccessView = () => {
     const {jobsList} = this.state
 
+    if (jobsList.length === 0) {
+      return (
+        <div className="no-jobs-container">
+          <img
+            className="no-jobs-image"
+            src="https://assets.ccbp.in/frontend/react-js/no-jobs-img.png"
+            alt="no jobs"
+          />
+          <h1 className="no-jobs-heading">No Jobs Found</h1>
+          <p className="no-jobs-description">
+            We could not find any jobs. Try other filters
+          </p>
+        </div>
+      )
+    }
     return (
-      <div className="jobs-container">
+      <ul className="jobs-list-container">
+        {jobsList.map(eachItem => (
+          <JobCard key={eachItem.id} jobDetails={eachItem} />
+        ))}
+      </ul>
+    )
+  }
+
+  renderResultView = () => {
+    const {apiStatus} = this.state
+
+    switch (apiStatus) {
+      case apiStatusConstants.success:
+        return this.renderSuccessView()
+
+      case apiStatusConstants.inProgress:
+        return this.renderInProgressView()
+
+      case apiStatusConstants.failure:
+        return this.renderFailureView()
+
+      default:
+        return null
+    }
+  }
+
+  render() {
+    const {searchInput} = this.state
+    return (
+      <div className="jobs-app-container">
         <Header />
         <div className="jobs-lists-container">
           <div className="jobs-portal-container">
@@ -138,8 +232,10 @@ class Jobs extends Component {
                   type="search"
                   className="search-input"
                   placeholder="Search"
+                  value={searchInput}
                 />
                 <button
+                  data-testid="searchButton"
                   type="button"
                   className="search-icon-button"
                   onClick={this.onClickSearchIcon}
@@ -197,7 +293,7 @@ class Jobs extends Component {
                 </ul>
               </div>
             </div>
-            <ul className="jobs-list-container">
+            <div className="jobs-list-app-container">
               <div className="search-ccontainer">
                 <input
                   onChange={this.onChangeSearchInput}
@@ -206,6 +302,7 @@ class Jobs extends Component {
                   placeholder="Search"
                 />
                 <button
+                  data-testid="searchButton"
                   type="button"
                   className="search-icon-button"
                   onClick={this.onClickSearchIcon}
@@ -213,11 +310,8 @@ class Jobs extends Component {
                   <IoIosSearch className="search-icon" />
                 </button>
               </div>
-
-              {jobsList.map(eachItem => (
-                <JobCard key={eachItem.id} jobDetails={eachItem} />
-              ))}
-            </ul>
+              {this.renderResultView()}
+            </div>
           </div>
         </div>
       </div>

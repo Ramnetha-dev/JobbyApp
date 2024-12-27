@@ -22,7 +22,7 @@ const JobCard = props => {
   } = jobDetails
 
   return (
-    <Link to={`/jobs/${id}`}>
+    <Link to={`/jobs/${id}`} className="job-list-item-containet">
       <li className="job-list-item">
         <div className="company-logo-container">
           <img
